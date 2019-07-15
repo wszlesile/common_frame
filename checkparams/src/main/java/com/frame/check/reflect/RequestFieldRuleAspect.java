@@ -246,10 +246,7 @@ public class RequestFieldRuleAspect {
             }
         }
 
-        if (label.isEmpty()) {
-            label = fieldName;
-        }
-
+        // 验证核心代码
         if (type.equals(List.class)) {
             // List类型
             String[] v = getParamsFromRequest(request, fieldName, alias);
@@ -266,21 +263,21 @@ public class RequestFieldRuleAspect {
 
             if (required && v == null) {
                 // 字段是必须 且 字段值不存在时 抛出异常
-                throw new WrongArgsException("需要参数[" + label + "]");
+                throw new WrongArgsException("需要参数: "+label+"[" + fieldName + "]");
             }
             boolean isJoint = Collections.disjoint(Arrays.asList(illegals),Arrays.asList(v));
             if(isJoint){
-                throw new WrongArgsException("参数[" + label + "]值不合法");
+                throw new WrongArgsException("参数: "+label+"[" + fieldName + "]值不合法");
             }
         } else {
             // 从请求中获取值
             String v = getParamFromRequest(request, fieldName, alias);
             if (required && (v == null || v.isEmpty())) {
                 // 字段是必须 且 字段值不存在时 抛出异常
-                throw new WrongArgsException("需要参数[" + label + "]");
+                throw new WrongArgsException("需要参数: "+label+"[" + fieldName + "]");
             }
             if(illegals !=null && Arrays.stream(illegals).anyMatch(illegal->illegal.equals(v))) {
-                throw new WrongArgsException("参数[" + label + "]值不合法");
+                throw new WrongArgsException("参数: "+label+"[" + fieldName + "]值不合法");
             }
         }
     }

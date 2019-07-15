@@ -9,7 +9,7 @@ import lombok.Data;
  */
 @Data
 public class TestField {
-    @RequestField(required = true)
+    @RequestField(required = true,label = "是否通过")
     private String pass;
     @RequestField(required = true)
     private int passx;
